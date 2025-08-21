@@ -5,6 +5,8 @@ import com.sunat.device.testing.dto.LoginRequest;
 import com.sunat.device.testing.entity.Cuenta;
 import com.sunat.device.testing.repository.CuentaRepository;
 import com.sunat.device.testing.security.JwtUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,12 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Operation(summary = "Login de usuario",
+            description = "Recibe email y password, devuelve token JWT",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Login exitoso"),
+                    @ApiResponse(responseCode = "401", description = "Credenciales inválidas")
+            })
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         Optional<Cuenta> cuentaOpt = cuentaRepository.findByEmail(loginRequest.getEmail());
