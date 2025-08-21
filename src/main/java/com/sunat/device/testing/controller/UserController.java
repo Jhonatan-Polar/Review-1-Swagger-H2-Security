@@ -2,12 +2,15 @@ package com.sunat.device.testing.controller;
 
 import com.sunat.device.testing.entity.User;
 import com.sunat.device.testing.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@Tag(name = "Usuarios", description = "Operaciones sobre usuarios")
 public class UserController {
 
     private final UserRepository repository;
@@ -17,6 +20,7 @@ public class UserController {
     }
 
     @GetMapping
+    @Operation(summary = "Listar todos los usuarios")
     public List<User> getAllUsers() {
         return repository.findAll();
     }
@@ -27,6 +31,7 @@ public class UserController {
     }
 
     @PostMapping
+    @Operation(summary = "Crear un nuevo usuario")
     public User createUser(@RequestBody User user) {
         return repository.save(user);
     }
